@@ -57,6 +57,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<PackageReference Include="Google.Cloud.Speech.V1" Version="3.8.0" />
+		<PackageReference Include="Google.Cloud.TextToSpeech.V1" Version="3.11.0" />
 		<PackageReference Include="Microsoft.CognitiveServices.Speech" Version="1.43.0" />
 		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
