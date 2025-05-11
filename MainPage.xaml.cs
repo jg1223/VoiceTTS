@@ -49,6 +49,31 @@ namespace VoiceTTS
             }
         }
 
+        // 텍스트에 줄바꿈 추가 메서드
+        private string AddLineBreaks(string text, int maxLineLength)
+        {
+            var words = text.Split(' '); // 단어 단위로 분리
+            var formattedText = new StringBuilder();
+            var currentLine = new StringBuilder();
+
+            foreach (var word in words)
+            {
+                if (currentLine.Length + word.Length + 1 > maxLineLength) // 줄 길이 초과 시 줄바꿈
+                {
+                    formattedText.AppendLine(currentLine.ToString().Trim());
+                    currentLine.Clear();
+                }
+                currentLine.Append(word + " ");
+            }
+
+            if (currentLine.Length > 0) // 마지막 줄 추가
+            {
+                formattedText.AppendLine(currentLine.ToString().Trim());
+            }
+
+            return formattedText.ToString();
+        }
+
         // AssemblyAI를 사용하여 음성 파일을 텍스트로 변환
         private async Task<string> ConvertAudioToText(string audioFilePath)
         {
@@ -67,12 +92,13 @@ namespace VoiceTTS
             var uploadJson = JsonDocument.Parse(uploadResult);
             var audioUrl = uploadJson.RootElement.GetProperty("upload_url").GetString();
 
-            // 2. 음성 텍스트 변환 요청
+            // 2. 음성 텍스트 변환 요청 (스피커 다이어리제이션 활성화)
             var transcriptRequest = new
             {
                 audio_url = audioUrl,
                 speech_model = "universal",
-                language_code = "ko" // 한국어 설정
+                language_code = "ko", // 한국어 설정
+                speaker_labels = true // 스피커 다이어리제이션 활성화
             };
 
             var transcriptUrl = "https://api.assemblyai.com/v2/transcript";
@@ -95,8 +121,19 @@ namespace VoiceTTS
 
                 if (status == "completed")
                 {
-                    // 변환 완료 시 텍스트 반환
-                    return statusJson.RootElement.GetProperty("text").GetString();
+                    // 스피커 다이어리제이션 결과 처리
+                    var segments = statusJson.RootElement.GetProperty("utterances");
+                    var formattedTranscript = new StringBuilder();
+
+                    foreach (var segment in segments.EnumerateArray())
+                    {
+                        var speaker = segment.GetProperty("speaker").GetString();
+                        var text = segment.GetProperty("text").GetString();
+                        formattedTranscript.AppendLine($"사용자 {speaker}: {text}");
+                        formattedTranscript.AppendLine(); // 사용자 단위로 줄바꿈 추가
+                    }
+
+                    return formattedTranscript.ToString();
                 }
                 else if (status == "error")
                 {
