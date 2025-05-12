@@ -14,26 +14,50 @@
                 SemanticProperties.Description="dot net bot in a race car number eight" />
 
             <Label
-                Text="Hello, World!"
+                Text="안녕하세요.!"
                 Style="{StaticResource Headline}"
                 SemanticProperties.HeadingLevel="Level1" />
 
             <Label
-                Text="Welcome to &#10;.NET Multi-platform App UI"
+                Text="인터넷이 연결되어 있어야 합니다"
                 Style="{StaticResource SubHeadline}"
                 SemanticProperties.HeadingLevel="Level2"
-                SemanticProperties.Description="Welcome to dot net Multi platform App U I" />
-
-
-            
+                SemanticProperties.Description="1번째" />
+            <Label
+                Text="음성파일을 선택하여 주세요"
+                Style="{StaticResource SubHeadline}"
+                SemanticProperties.HeadingLevel="Level3"
+                SemanticProperties.Description="2번째" />
+            <Label
+                Text="음성의 크기에 따라 시간이 걸립니다"
+                Style="{StaticResource SubHeadline}"
+                SemanticProperties.HeadingLevel="Level4"
+                SemanticProperties.Description="3번째" />
+            <Label
+                Text="50M 기준으로 2~5분 정도 걸립니다"
+                Style="{StaticResource SubHeadline}"
+                SemanticProperties.HeadingLevel="Level5"
+                SemanticProperties.Description="4번째" />
+            <Label
+                Text="변환 API는 무료로 assemblyai를 사용 합니다"
+                Style="{StaticResource SubHeadline}"
+                SemanticProperties.HeadingLevel="Level5"
+                SemanticProperties.Description="4번째" />
             
 
             <Button Text="음성 파일 선택 및 변환" Clicked="OnPickAndConvertFilesClicked"/>
 
+            <!-- 로딩바 추가 -->
+            <ActivityIndicator x:Name="LoadingIndicator" 
+                                IsRunning="False" 
+                                IsVisible="False" 
+                                Color="Blue" 
+                                VerticalOptions="Center" 
+                                HorizontalOptions="Center" />
+            <!--<Button Text="블로그 열기" Clicked="OnOpenBlogClicked" />-->
+            <Button Text="저장된 경로 열기" Clicked="OnOpenSavedPathClicked" />
 
         </VerticalStackLayout>
-        
-        
     </ScrollView>
 
 </ContentPage>
