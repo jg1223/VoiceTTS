@@ -186,13 +186,13 @@ namespace VoiceTTS
         }
         //private async void OnOpenBlogClicked(object sender, EventArgs e)
         //{
-        //    var url = "https://jg1223.tistory.com/";
+        //    var url = "https://jg1223.tistory.com/158";
         //    await Browser.Default.OpenAsync(url, BrowserLaunchMode.SystemPreferred);
         //}
 
         private async void OpenBlogOnStartup()
         {
-            var url = "https://jg1223.tistory.com/";
+            var url = "https://jg1223.tistory.com/158";
             await Browser.Default.OpenAsync(url, BrowserLaunchMode.SystemPreferred);
         }
 
@@ -325,6 +325,8 @@ namespace VoiceTTS
         {
             try
             {
+#if ANDROID
+
                 // VoiceTTS 폴더 경로 설정
                 string voiceTTSFolderPath = Path.Combine(Android.OS.Environment.GetExternalStoragePublicDirectory(Android.OS.Environment.DirectoryDocuments).AbsolutePath, "VoiceTTS");
 
@@ -338,6 +340,7 @@ namespace VoiceTTS
                 // 폴더 생성
                 Directory.CreateDirectory(voiceTTSFolderPath);
                 System.Diagnostics.Debug.WriteLine("VoiceTTS 폴더가 성공적으로 생성되었습니다.");
+#endif
             }
             catch (Exception ex)
             {
